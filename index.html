@@ -51,6 +51,11 @@ input{font:inherit;user-select:text;-webkit-user-select:text}
 .p:active{transform:scale(.95)}
 .p.me{background:var(--tc);color:#111}
 .teams{display:flex;flex-direction:column;gap:12px}
+.solo{display:flex;flex-direction:column;gap:10px}
+.sp{--tc:#fff;display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:20px;font-size:22px;font-weight:600;text-align:right;background:color-mix(in srgb,var(--tc) 18%,rgba(20,24,50,.55));border:1px solid color-mix(in srgb,var(--tc) 50%,transparent);transition:transform .12s}
+.sp:active{transform:scale(.97)}
+.sp .em{width:44px;height:44px}
+.sp.me{background:var(--tc);color:#111}
 .tsel{display:flex;flex-wrap:wrap;gap:8px}
 .tsel button{--tc:#fff;display:flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:999px;background:color-mix(in srgb,var(--tc) 22%,rgba(255,255,255,.06));border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);font-size:17px}
 .tsel button.on{background:var(--tc);color:#111}
@@ -158,7 +163,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   const app = document.getElementById('app'), fxEl = document.getElementById('fx'), lostEl = document.getElementById('lost');
   let room = null, A = null, host = null, T = null, st = null, joinedAt = 0, picking = false, hiddenAt = 0, wl = null, sentAt = 0;
 
-  const h = (tag, attrs, ...kids) => { const e = document.createElement(tag); if (attrs) for (const k in attrs) { if (k === 'class') e.className = attrs[k]; else if (k === 'style') e.style.cssText = attrs[k]; else if (k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); } kids.flat().forEach(c => c != null && e.append(c)); return e; };
+  const h = (tag, attrs, ...kids) => { const e = document.createElement(tag); if (attrs) for (const k in attrs) { if (k === 'class') e.className = attrs[k]; else if (k === 'style') e.style.cssText = attrs[k]; else if (k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); } kids.flat(Infinity).forEach(c => c != null && e.append(c)); return e; };
   const color = (c) => /^#[0-9a-f]{3,8}$/i.test(c || '') ? c : '#8E8E93';
   // emblems arrive as SVG shapes; they're shown as images, so nothing in them can run
   const emblem = (svg, c = '#fff') => h('img', { alt: '', src: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="${c}" color="${c}">${String(svg || '')}</svg>`) });
@@ -169,6 +174,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   addEventListener('pointerdown', wake, true);
   const setTeamColor = (c) => { document.documentElement.style.setProperty('--c', c || '#8E8E93'); document.body.classList.toggle('tc-on', !!c); };
   function screen(key, build) { if (app.dataset.k === key) return false; app.dataset.k = key; app.innerHTML = ''; build(); return true; }
+  const solo = () => !!(T && T.mode === 'solo');
   const hashCode = () => { const c = decodeURIComponent(location.hash.slice(1)).toUpperCase().replace(/[^A-Z0-9]/g, ''); return c.length === 4 ? c : ''; };
 
   /* ---------- connection ---------- */
@@ -255,8 +261,16 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     setTeamColor(null);
     const teams = (T && T.teams) || [];
     screen('pick:' + (T && T.sig) + ':' + (me.pid || '') + (me.name || ''), () => {
-      app.append(h('div', { class: 'h1' }, T && T.mode === 'solo' ? 'مين أنت؟' : 'مين أنت؟ اختار اسمك'), h('div', { class: 'sub', style: 'margin-top:-8px' }, T && T.night || ''));
+      const solo = T && T.mode === 'solo';
+      app.append(h('div', { class: 'h1' }, 'مين أنت؟ اختار اسمك'), h('div', { class: 'sub', style: 'margin-top:-8px' }, solo ? 'كل واحد لحاله الليلة' : T && T.night || ''));
       const list = h('div', { class: 'teams' });
+      if (solo) {
+        // every player is their own gang: one list of names, each in its own colour and emblem
+        list.append(h('div', { class: 'solo' }, teams.map((t, i) => (t.ps || []).map(p => h('button', { class: 'sp' + (p.id === me.pid ? ' me' : ''), style: '--tc:' + color(t.c), onclick: () => { vib(15); pick(p.id, i, p.n); render(); } }, h('span', { class: 'em' }, emblem(t.e, 'rgba(0,0,0,.72)')), p.n)))));
+        app.append(list);
+        if (picking && st && st.t >= 0) app.append(h('button', { class: 'btn ghost', onclick: () => { picking = false; app.dataset.k = ''; render(); } }, 'رجوع'));
+        return;
+      }
       teams.forEach((t, i) => {
         const tc = color(t.c);
         const ps = h('div', { class: 'ps' }, (t.ps || []).map(p => h('button', { class: 'p' + (p.id === me.pid ? ' me' : ''), onclick: () => { vib(15); pick(p.id, i, p.n); render(); } }, p.n)));
@@ -275,13 +289,13 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   function header(S, tm) {
     const top = h('div', { class: 'top' },
       h('span', { class: 'em' }, emblem(tm && tm.e, 'rgba(0,0,0,.72)')),
-      h('div', { class: 'who' }, h('div', { class: 'tn' }, tm ? tm.n : ''), h('div', { class: 'pn' }, h('span', { class: 'me' }, S.n || ''), h('button', { onclick: () => { picking = true; app.dataset.k = ''; render(); } }, 'غيّر'))),
+      h('div', { class: 'who' }, h('div', { class: 'tn' }, tm ? tm.n : ''), h('div', { class: 'pn' }, h('span', { class: 'me' }, solo() ? 'كل واحد لحاله' : S.n || ''), h('button', { onclick: () => { picking = true; app.dataset.k = ''; render(); } }, 'غيّر'))),
       h('div', { class: 'score' }, h('b', null, fmt(S.sc)), h('small', null, S.rk ? `المركز ${S.rk} من ${S.nt}` : '')));
     return top;
   }
   function refreshHeader(S, tm) {
     const b = app.querySelector('.score b'), s = app.querySelector('.score small'), n = app.querySelector('.pn .me');
-    if (b) b.textContent = fmt(S.sc); if (s) s.textContent = S.rk ? `المركز ${S.rk} من ${S.nt}` : ''; if (n) n.textContent = S.n || '';
+    if (b) b.textContent = fmt(S.sc); if (s) s.textContent = S.rk ? `المركز ${S.rk} من ${S.nt}` : ''; if (n) n.textContent = solo() ? 'كل واحد لحاله' : S.n || '';
   }
   function scrPad(S, tm) {
     screen('pad:' + S.t + ':' + (tm && tm.n), () => {
@@ -312,7 +326,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
         e.currentTarget.classList.add('sent'); opts.classList.add('wait');
         setTimeout(() => { opts.classList.remove('wait'); opts.querySelectorAll('.sent').forEach(x => x.classList.remove('sent')); }, 2500);   // if nothing came of it, let them try again
       } }, h('b', null, String(i + 1)), h('span', null, o))));
-      app.append(header(S, tm), h('div', { class: 'qh' }, 'الجواب عندكم!'), opts);
+      app.append(header(S, tm), h('div', { class: 'qh' }, solo() ? 'الجواب عندك!' : 'الجواب عندكم!'), opts);
     });
     if (fresh) vib([30, 40, 30]);
     refreshHeader(S, tm);
@@ -330,7 +344,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   function fx(d) {
     if (!d) return;
     let text = '', bg = '', p = 0;
-    if (d.t === 'win') { text = 'أنتم أول!'; bg = 'var(--c)'; p = [70, 40, 160]; }
+    if (d.t === 'win') { text = solo() ? 'أنت أول!' : 'أنتم أول!'; bg = 'var(--c)'; p = [70, 40, 160]; }
     else if (d.t === 'early') { text = 'بدري!'; bg = '#FF453A'; p = [40, 30, 40, 30, 40]; }
     else if (d.t === 'wait') { text = 'استنوا…'; bg = '#FF9F0A'; p = [25]; }
     else if (d.t === 'pts') { const v = d.v | 0; text = (v > 0 ? '+' : '−') + fmt(Math.abs(v)); bg = v > 0 ? '#30D158' : '#FF453A'; p = v > 0 ? [30, 30, 60] : [140]; }
