@@ -98,6 +98,69 @@ input{font:inherit;user-select:text;-webkit-user-select:text}
 .bigem{width:44vw;max-width:220px;aspect-ratio:1;border-radius:50%;background:var(--c);display:grid;place-items:center;box-shadow:0 24px 60px color-mix(in srgb,var(--c) 45%,transparent);animation:float 3.6s ease-in-out infinite}
 .bigem img{width:58%;height:58%}
 @keyframes float{50%{transform:translateY(-8px)}}
+/* tasks: a pick, typing, a secret card, a reorder, a grid, a drawing */
+.tk-h{font-size:24px;font-weight:700;text-align:center;line-height:1.35}
+.tk-s{font-size:16px;color:rgba(235,235,245,.72);text-align:center;margin-top:-6px;line-height:1.55}
+.tk-opts{display:flex;flex-direction:column;gap:10px}
+.tk-o{--oc:#fff;display:flex;align-items:center;gap:12px;min-height:60px;padding:12px 16px;border-radius:18px;background:color-mix(in srgb,var(--oc) 16%,rgba(20,24,50,.6));border:1px solid color-mix(in srgb,var(--oc) 45%,transparent);font-size:20px;font-weight:600;text-align:right;transition:transform .12s,opacity .2s}
+.tk-o:active{transform:scale(.97)}
+.tk-o.off{opacity:.3;pointer-events:none}
+.tk-o.sent{background:var(--oc);color:#111}
+.tk-wait .tk-o:not(.sent){opacity:.3;pointer-events:none}
+.tk-ok{font-size:18px;text-align:center;color:#30D158;font-weight:600;min-height:26px}
+.tk-in{width:100%;font-size:26px;padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);color:#fff;outline:none;text-align:right}
+.tk-in:focus{border-color:#0A84FF;box-shadow:0 0 0 4px rgba(10,132,255,.25)}
+.tk-card{border-radius:26px;padding:26px 20px;text-align:center;background:linear-gradient(170deg,#efe3c8,#d6c296);color:#2a1a10;min-height:220px;display:flex;flex-direction:column;justify-content:center;gap:10px;position:relative;-webkit-user-select:none;user-select:none;touch-action:none}
+.tk-card .bg{font-size:clamp(32px,11vw,56px);font-weight:700;line-height:1.2}
+.tk-card .sm{font-size:17px;font-weight:600;color:#7a4a00}
+.tk-card ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.tk-card li{font-size:20px;font-weight:600;color:#7a1020;border-top:1px dashed rgba(0,0,0,.2);padding-top:6px}
+.tk-card.spy{background:linear-gradient(170deg,#3a0610,#12020a);color:#ffd0d8}
+.tk-card.spy .sm{color:#ff8fa3}
+.tk-card .cover{position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(45deg,#1a1d26 0 16px,#141720 16px 32px);border:3px solid #3a3f50;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:600;transition:opacity .12s}
+.tk-card .cover b{font-size:30px}
+.tk-card.show .cover{opacity:0}
+.tk-acts{display:flex;gap:10px}
+.tk-acts .btn{flex:1}
+.btn.good{background:#30D158;box-shadow:0 10px 26px rgba(48,209,88,.3)}
+.btn.bad{background:#FF453A;box-shadow:0 10px 26px rgba(255,69,58,.3)}
+.tk-ord{display:flex;flex-direction:column;gap:8px}
+.tk-it{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:16px;background:rgba(255,255,255,.1);font-size:18px;font-weight:600}
+.tk-it .n{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:15px;flex:none}
+.tk-it .tx{flex:1;line-height:1.3}
+.tk-it button{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.14);font-size:18px;flex:none}
+.tk-it button:active{background:rgba(255,255,255,.3)}
+.tk-grid{display:grid;gap:5px;touch-action:none;direction:rtl}
+.tk-cell{--cc:rgba(255,255,255,.12);min-height:40px;aspect-ratio:1;border-radius:10px;background:var(--cc);display:grid;place-items:center;font-size:clamp(13px,4.6vw,26px);font-weight:700;-webkit-user-select:none;user-select:none;line-height:1}
+.tk-cell.on{outline:3px solid #fff;outline-offset:-2px}
+.tk-cell.sel{background:#FFD60A;color:#111}
+.tk-cell.done{opacity:.35}
+.tk-cell.found{background:#30D158;color:#111}
+/* the remote: the screen's buttons, or a trackpad */
+.rm-seg{display:flex;background:rgba(255,255,255,.1);border-radius:14px;padding:4px;gap:4px}
+.rm-seg button{flex:1;padding:10px;border-radius:10px;font-size:16px;font-weight:600}
+.rm-seg button.on{background:#fff;color:#111}
+.rm-list{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.rm-b{--oc:rgba(255,255,255,.5);flex:1 1 calc(50% - 8px);min-height:56px;padding:10px 12px;border-radius:16px;background:color-mix(in srgb,var(--oc) 24%,rgba(20,24,50,.6));border:1px solid color-mix(in srgb,var(--oc) 50%,transparent);font-size:18px;font-weight:600;line-height:1.3;transition:transform .1s}
+.rm-b.long{flex-basis:100%}
+.rm-b:active,.rm-b.hit{transform:scale(.95);background:var(--oc)}
+.rm-b.on{outline:3px solid #fff;outline-offset:-2px}
+.rm-b.done{opacity:.35}
+.rm-grid{display:grid;gap:6px;direction:rtl}
+.rm-grid .rm-b{min-height:52px;padding:6px 4px;font-size:16px}
+.rm-pad{flex:1;min-height:280px;border-radius:24px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(235,235,245,.6);font-size:16px;touch-action:none;text-align:center;padding:20px;line-height:1.6}
+.rm-pad b{font-size:20px;color:#fff}
+.rm-mb{height:80px;border-radius:20px;background:var(--c);color:#111;font-size:20px;font-weight:700;touch-action:none;-webkit-user-select:none;user-select:none}
+.rm-mb.down{filter:brightness(.75)}
+/* drawing */
+.dr-cv{width:100%;aspect-ratio:1300/720;background:#fbf6ec;border-radius:16px;touch-action:none;display:block}
+.dr-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}
+.dr-row i{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.2);display:block}
+.dr-row i.on{border-color:#fff;transform:scale(1.12)}
+.dr-row .sz{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.dr-row .sz.on{background:#fff}
+.dr-row .sz span{background:#1a1a1a;border-radius:50%;display:block}
+.dr-word{text-align:center;font-size:30px;font-weight:700;color:#FFD60A}
 /* fx */
 #fx{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:9;opacity:0}
 #fx.on{animation:fx 1.2s ease-out forwards}
@@ -184,8 +247,8 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     leave(); me.code = code; save(); joinedAt = Date.now();
     if (location.hash.slice(1) !== code) history.replaceState(null, '', '#' + code);
     room = Trystero.joinRoom({ appId: APP, password: 'ashrar-' + code, relayConfig: { urls: RELAYS } }, code);
-    A = {}; ['hi', 'pk', 'pr', 'po', 'tm', 'st', 'fx', 'pg'].forEach(n => A[n] = room.makeAction(n));
-    ['hi', 'pk', 'pr', 'po'].forEach(n => A[n].onMessage = () => { });   // other phones' messages are for the screen
+    A = {}; ['hi', 'pk', 'pr', 'po', 'tm', 'st', 'fx', 'pg', 'dw'].forEach(n => A[n] = room.makeAction(n));
+    ['hi', 'pk', 'pr', 'po', 'dw'].forEach(n => A[n].onMessage = () => { });   // other phones' messages are for the screen
     room.onPeerJoin = (pid) => { A && A.hi.send(hello(), { target: pid }).catch(() => { }); };
     room.onPeerLeave = (pid) => { if (pid === host) { host = null; render(); } };
     A.tm.onMessage = (d, { peerId }) => { if (host && host !== peerId && hostHere()) return; host = peerId; T = d || { teams: [] }; render(); };
@@ -216,6 +279,9 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     if (picking || S.v === 'pick' || (S.t < 0 && T && T.teams && T.teams.length)) return scrPick();
     if (S.t < 0) return scrWait();
     const tm = T && T.teams && T.teams[S.t]; setTeamColor(color(tm && tm.c));
+    if (S.v !== 'remote') rmMode = null;
+    if (S.v === 'ask') return scrAsk(S, tm);
+    if (S.v === 'remote') return scrRemote(S, tm);
     if (S.v === 'choices') return scrChoices(S, tm);
     if (S.v === 'pad') return scrPad(S, tm);
     return scrIdle(S, tm);
@@ -318,7 +384,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     m.classList.toggle('turn', !S.lock && S.msg === 'دوركم!');
   }
   function scrChoices(S, tm) {
-    const key = 'ch:' + S.t + ':' + JSON.stringify(S.opts);
+    const key = 'ch:' + S.t + ':' + JSON.stringify(S.opts) + ':' + (S.ex && S.ex.length ? S.tv + JSON.stringify(S.ex) : '');
     const fresh = screen(key, () => {
       const opts = h('div', { class: 'opts' }, S.opts.map((o, i) => h('button', { class: 'opt', onclick: (e) => {
         if (opts.classList.contains('wait')) return;
@@ -327,6 +393,8 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
         setTimeout(() => { opts.classList.remove('wait'); opts.querySelectorAll('.sent').forEach(x => x.classList.remove('sent')); }, 2500);   // if nothing came of it, let them try again
       } }, h('b', null, String(i + 1)), h('span', null, o))));
       app.append(header(S, tm), h('div', { class: 'qh' }, solo() ? 'الجواب عندك!' : 'الجواب عندكم!'), opts);
+      // the screen's other buttons for this gang (lifelines, «إجابة نهائية», «انسحب»…)
+      if (S.ex && S.ex.length) app.append(h('div', { class: 'rm-list' }, S.ex.map(b => h('button', { class: 'rm-b' + (b.st ? ' ' + b.st : ''), style: (b.c ? '--oc:' + b.c + ';' : '') + 'min-height:48px;font-size:16px', onclick: (e) => { vib(12); toHost('pr', { k: 'rt', v: S.tv, i: b.i }); const el = e.currentTarget; el.classList.add('hit'); setTimeout(() => el.classList.remove('hit'), 180); } }, b.t || '•'))));
     });
     if (fresh) vib([30, 40, 30]);
     refreshHeader(S, tm);
@@ -338,6 +406,142 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     });
     refreshHeader(S, tm);
     app.querySelector('.msg').textContent = S.msg || 'استنوا…';
+  }
+
+  /* ---------- tasks from the screen: for this player, or their gang ---------- */
+  const answer = (id, v) => toHost('pr', { k: 'a', id, v });
+  const heads = (S) => [S.title ? h('div', { class: 'tk-h' }, S.title) : null, S.sub ? h('div', { class: 'tk-s' }, S.sub) : null];
+  function scrAsk(S, tm) {
+    const sig = S.kind === 'pick' ? JSON.stringify(S.opts) : S.kind === 'card' || S.kind === 'draw' ? [S.big, S.word, S.sm, S.hold, S.spy, (S.list || []).join('|'), JSON.stringify(S.acts || [])].join('~')
+      : S.kind === 'order' ? (S.items || []).join('|') + S.lock : S.kind === 'cells' ? S.cols + ':' + (S.cells || []).length + S.mode : S.kind === 'text' ? S.max + ':' + S.num + ':' + (S.sub || '') : '';
+    const fresh = screen('ask:' + S.id + ':' + S.kind + ':' + (S.title || '') + ':' + sig, () => {
+      app.append(header(S, tm), ...heads(S));
+      (ASK[S.kind] || ASK.card)(S);
+    });
+    if (fresh) vib([20, 40, 20]);
+    else refreshHeader(S, tm);
+    if (S.kind === 'cells') paintCells(S);
+  }
+  const ASK = {
+    pick(S) {
+      const box = h('div', { class: 'tk-opts' }), ok = h('div', { class: 'tk-ok' });
+      (S.opts || []).forEach((o, i) => box.append(h('button', { class: 'tk-o' + (o.off ? ' off' : ''), style: '--oc:' + color(o.c || '#FFFFFF'), onclick: (e) => {
+        if (box.classList.contains('tk-wait')) return;
+        e.currentTarget.classList.add('sent'); box.classList.add('tk-wait'); ok.textContent = 'وصل ✓'; vib(25); answer(S.id, i);
+      } }, o.t)));
+      app.append(h('div', { class: 'grow', style: 'display:flex;flex-direction:column;gap:12px;justify-content:center' }, box, ok));
+    },
+    text(S) {
+      const inp = h('input', { class: 'tk-in', maxlength: String(S.max || 40), placeholder: S.ph || 'اكتب هنا…', autocomplete: 'off', autocorrect: 'off', spellcheck: 'false', enterkeyhint: 'send', inputmode: S.num ? 'numeric' : 'text', dir: S.num ? 'ltr' : 'rtl' });
+      const ok = h('div', { class: 'tk-ok' });
+      const send = () => {
+        const v = inp.value.trim(); if (!v) { inp.focus(); inp.animate([{ transform: 'translateX(-8px)' }, { transform: 'translateX(8px)' }, { transform: 'none' }], 220); return; }
+        answer(S.id, v); vib(20);
+        if (S.persist) { inp.value = ''; ok.textContent = '«' + v + '» وصلت ✓'; inp.focus(); }
+        else { inp.disabled = true; b.disabled = true; b.textContent = 'أرسلناها ✓'; ok.textContent = 'استنوا الشاشة…'; }
+      };
+      const b = h('button', { class: 'btn', onclick: send }, 'أرسل');
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+      app.append(h('div', { class: 'card', style: 'display:flex;flex-direction:column;gap:12px' }, inp, b, ok));
+      setTimeout(() => inp.focus(), 60);
+    },
+    card(S) {
+      const card = h('div', { class: 'tk-card' + (S.spy ? ' spy' : '') }, S.sm ? h('div', { class: 'sm' }, S.sm) : null, S.big ? h('div', { class: 'bg' }, S.big) : null, S.list && S.list.length ? h('ul', null, S.list.map(x => h('li', null, x))) : null);
+      if (S.hold) {
+        // press and hold to see it (so nobody reads over a shoulder)
+        card.append(h('div', { class: 'cover' }, h('b', null, 'سري'), h('span', null, 'اضغط مطوّلاً عشان تشوف')));
+        const on = (e) => { e.preventDefault(); card.classList.add('show'); vib(10); }, off = () => card.classList.remove('show');
+        card.addEventListener('pointerdown', on); card.addEventListener('pointerup', off); card.addEventListener('pointercancel', off); card.addEventListener('pointerleave', off);
+        card.addEventListener('contextmenu', (e) => e.preventDefault());
+      }
+      app.append(h('div', { class: 'grow', style: 'display:flex;flex-direction:column;justify-content:center;gap:14px' }, card));
+      if (S.acts && S.acts.length) app.append(h('div', { class: 'tk-acts' }, S.acts.map((a, i) => h('button', { class: 'btn ' + (a.cls || ''), style: a.c ? `background:${color(a.c)}` : '', onclick: (e) => { vib(20); answer(S.id, i); const b = e.currentTarget; b.animate([{ transform: 'scale(.94)' }, { transform: 'none' }], 200); } }, a.t))));
+    },
+    order(S) {
+      const items = S.items || [], list = h('div', { class: 'tk-ord' });
+      const mv = (from, to) => { if (to < 0 || to >= items.length) return; vib(10); answer(S.id, { mv: [from, to] }); };
+      items.forEach((t, i) => list.append(h('div', { class: 'tk-it' }, h('span', { class: 'n' }, String(i + 1)), h('span', { class: 'tx' }, t),
+        h('button', { onclick: () => mv(i, i - 1), 'aria-label': 'فوق' }, '▲'), h('button', { onclick: () => mv(i, i + 1), 'aria-label': 'تحت' }, '▼'))));
+      app.append(h('div', { class: 'grow', style: 'overflow:auto' }, list), h('button', { class: 'btn', onclick: () => { vib(30); answer(S.id, { lock: 1 }); } }, S.lock || 'ثبّت الترتيب'));
+    },
+    cells(S) {
+      const g = h('div', { class: 'tk-grid', style: `grid-template-columns:repeat(${S.cols || 4},1fr)` });
+      (S.cells || []).forEach((c, i) => g.append(h('div', { class: 'tk-cell', 'data-i': String(i) })));
+      const idx = (e) => { const t = document.elementFromPoint(e.clientX, e.clientY); const c = t && t.closest && t.closest('.tk-cell'); return c && g.contains(c) ? +c.dataset.i : -1; };
+      if (S.mode === 'line') {
+        // swipe from the first letter to the last, in a straight line
+        const C = S.cols, rc = (i) => [Math.floor(i / C), i % C];
+        let a = -1, line = [];
+        const paint = () => g.querySelectorAll('.tk-cell').forEach((el, i) => el.classList.toggle('sel', line.includes(i)));
+        const lineTo = (b) => { const [r0, c0] = rc(a), [r1, c1] = rc(b), dr = Math.sign(r1 - r0), dc = Math.sign(c1 - c0), n = Math.max(Math.abs(r1 - r0), Math.abs(c1 - c0)); if (!(r0 === r1 || c0 === c1 || Math.abs(r1 - r0) === Math.abs(c1 - c0))) return null; return [...Array(n + 1)].map((_, k) => (r0 + dr * k) * C + c0 + dc * k); };
+        g.addEventListener('pointerdown', (e) => { e.preventDefault(); a = idx(e); if (a < 0) return; line = [a]; paint(); vib(8); });
+        g.addEventListener('pointermove', (e) => { if (a < 0) return; const b = idx(e); if (b < 0) return; const L = lineTo(b); if (L) { line = L; paint(); } });
+        const up = () => { if (a < 0) return; if (line.length > 1) { answer(S.id, { a: line[0], b: line[line.length - 1] }); vib(15); } a = -1; line = []; paint(); };
+        g.addEventListener('pointerup', up); g.addEventListener('pointercancel', up);
+      } else g.addEventListener('click', (e) => { const i = idx(e); if (i < 0) return; const c = S.cells[i]; if (c && c.st === 'done') return; vib(12); answer(S.id, { i }); const el = g.children[i]; el.animate([{ transform: 'scale(.88)' }, { transform: 'none' }], 180); });
+      app.append(h('div', { class: 'grow', style: 'display:flex;flex-direction:column;justify-content:center' }, g));
+      if (S.acts && S.acts.length) app.append(h('div', { class: 'tk-acts' }, S.acts.map((x, i) => h('button', { class: 'btn ' + (x.cls || ''), onclick: () => { vib(20); answer(S.id, { act: i }); } }, x.t))));
+    },
+    draw(S) {
+      // the secret word stays on this phone; every stroke goes straight to the screen
+      const cv = h('canvas', { class: 'dr-cv', width: '1300', height: '720' }), g = cv.getContext('2d');
+      g.lineCap = 'round'; g.lineJoin = 'round';
+      let col = '#1a1a1a', size = 8, last = null, buf = [], flushT = 0, first = false;
+      const flush = () => { flushT = 0; if (!buf.length) return; if (A && host) A.dw.send({ id: S.id, s: buf, c: col, w: size, n: first ? 1 : 0 }, { target: host }).catch(() => { }); buf = []; first = false; };
+      const pos = (e) => { const r = cv.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / r.width * 1300), Math.round((e.clientY - r.top) / r.height * 720)]; };
+      const dot = (p) => { g.fillStyle = col; g.beginPath(); g.arc(p[0], p[1], (col === '#fbf6ec' ? size * 3 : size) / 2, 0, 6.3); g.fill(); };
+      cv.addEventListener('pointerdown', (e) => { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (x) { } last = pos(e); dot(last); flush(); first = true; buf.push(last); if (!flushT) flushT = setTimeout(flush, 40); });
+      cv.addEventListener('pointermove', (e) => { if (!last) return; const p = pos(e); g.strokeStyle = col; g.lineWidth = col === '#fbf6ec' ? size * 3 : size; g.beginPath(); g.moveTo(last[0], last[1]); g.lineTo(p[0], p[1]); g.stroke(); last = p; buf.push(p); if (!flushT) flushT = setTimeout(flush, 40); });
+      const end = () => { last = null; flush(); };
+      cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+      const sw = h('div', { class: 'dr-row' });
+      ['#1a1a1a', '#e63946', '#f4a261', '#2a9d8f', '#277da1', '#8338ec', '#6b4226', '#fbf6ec'].forEach((c, i) => sw.append(h('i', { class: i ? '' : 'on', style: `background:${c}`, onclick: (e) => { col = c; sw.querySelectorAll('i').forEach(x => x.classList.toggle('on', x === e.currentTarget)); } })));
+      const sz = h('div', { class: 'dr-row' });
+      [4, 8, 18].forEach((z, i) => sz.append(h('button', { class: 'sz' + (i === 1 ? ' on' : ''), onclick: (e) => { size = z; sz.querySelectorAll('.sz').forEach(x => x.classList.toggle('on', x === e.currentTarget)); } }, h('span', { style: `width:${z + 4}px;height:${z + 4}px` }))));
+      sz.append(h('button', { class: 'btn ghost', style: 'width:auto;min-height:40px;padding:6px 16px;font-size:16px', onclick: () => { g.clearRect(0, 0, 1300, 720); answer(S.id, { clear: 1 }); } }, 'امسح'));
+      app.append(S.word ? h('div', { class: 'dr-word' }, S.word) : null, cv, sw, sz);
+      if (S.acts && S.acts.length) app.append(h('div', { class: 'tk-acts' }, S.acts.map((x, i) => h('button', { class: 'btn ' + (x.cls || ''), onclick: () => { vib(20); answer(S.id, { act: i }); } }, x.t))));
+    },
+  };
+  function paintCells(S) {
+    const els = app.querySelectorAll('.tk-cell');
+    (S.cells || []).forEach((c, i) => { const el = els[i]; if (!el) return; if (el.textContent !== (c.t || '')) el.textContent = c.t || ''; el.style.setProperty('--cc', c.c ? color(c.c) : 'rgba(255,255,255,.12)'); el.style.color = c.c ? '#111' : ''; el.classList.toggle('on', c.st === 'on'); el.classList.toggle('done', c.st === 'done'); el.classList.toggle('found', c.st === 'found'); if (c.tf) el.style.transform = c.tf; });
+  }
+
+  /* ---------- the remote: the screen's buttons on the phone, or a trackpad ---------- */
+  let rmMode = null;
+  function scrRemote(S, tm) {
+    if (!rmMode) rmMode = S.touch ? 'touch' : 'list';
+    if (!S.ts.length && !S.touch) rmMode = 'list';
+    const key = 'rm:' + S.t + ':' + rmMode + ':' + (rmMode === 'list' ? S.tv : '');
+    screen(key, () => {
+      app.append(header(S, tm));
+      const seg = h('div', { class: 'rm-seg' }, h('button', { class: rmMode === 'list' ? 'on' : '', onclick: () => { rmMode = 'list'; app.dataset.k = ''; render(); } }, 'أزرار الشاشة'), h('button', { class: rmMode === 'touch' ? 'on' : '', onclick: () => { rmMode = 'touch'; app.dataset.k = ''; render(); } }, 'ماوس حر'));
+      app.append(seg);
+      if (rmMode === 'list') {
+        // a grid on screen (cards, cells, drums, letters) stays a grid; anything else is a list of buttons
+        const short = S.ts.length >= 5 && S.ts.every(b => (b.t || '').length <= 3);
+        const cols = S.cols && S.ts.every(b => (b.t || '').length <= 4) ? S.cols : short ? Math.min(6, Math.ceil(Math.sqrt(S.ts.length))) : 0;
+        const box = h('div', { class: cols ? 'rm-grid' : 'rm-list', style: cols ? `grid-template-columns:repeat(${cols},1fr)` : '' });
+        S.ts.forEach((b, i) => box.append(h('button', { class: 'rm-b' + (!cols && (b.t || '').length > 14 ? ' long' : '') + (b.st ? ' ' + b.st : ''), style: b.c ? '--oc:' + b.c : '', onclick: (e) => { vib(12); toHost('pr', { k: 'rt', v: S.tv, i }); const el = e.currentTarget; el.classList.add('hit'); setTimeout(() => el.classList.remove('hit'), 180); } }, b.t || String(i + 1))));
+        app.append(h('div', { class: 'grow', style: 'overflow:auto' }, box));
+      } else {
+        // drag to move the cursor on the screen, tap to click; hold the big button to drag things
+        const pad = h('div', { class: 'rm-pad' }, h('b', null, 'حرّك إصبعك هنا'), h('span', null, 'السهم يتحرك على الشاشة · ضغطة خفيفة = كليك'));
+        let last = null, acc = [0, 0], moved = 0, t0 = 0, sendT = 0;
+        const flush = () => { sendT = 0; if (acc[0] || acc[1]) { toHost('pr', { k: 'mv', dx: Math.round(acc[0]), dy: Math.round(acc[1]) }); acc = [0, 0]; } };
+        pad.addEventListener('pointerdown', (e) => { e.preventDefault(); try { pad.setPointerCapture(e.pointerId); } catch (x) { } last = [e.clientX, e.clientY]; moved = 0; t0 = Date.now(); });
+        pad.addEventListener('pointermove', (e) => { if (!last) return; const dx = e.clientX - last[0], dy = e.clientY - last[1]; last = [e.clientX, e.clientY]; acc[0] += dx; acc[1] += dy; moved += Math.abs(dx) + Math.abs(dy); if (!sendT) sendT = setTimeout(flush, 30); });
+        const up = () => { if (!last) return; last = null; flush(); if (moved < 10 && Date.now() - t0 < 350) { toHost('pr', { k: 'tp' }); vib(12); } };
+        pad.addEventListener('pointerup', up); pad.addEventListener('pointercancel', up);
+        const mb = h('button', { class: 'rm-mb' }, 'اضغط مطوّلاً للسحب');
+        mb.addEventListener('pointerdown', (e) => { e.preventDefault(); mb.classList.add('down'); toHost('pr', { k: 'bd' }); vib(10); });
+        const mu = () => { if (!mb.classList.contains('down')) return; mb.classList.remove('down'); toHost('pr', { k: 'bu' }); };
+        mb.addEventListener('pointerup', mu); mb.addEventListener('pointercancel', mu); mb.addEventListener('pointerleave', mu);
+        app.append(pad, mb);
+      }
+    });
+    refreshHeader(S, tm);
   }
 
   /* ---------- moments from the screen ---------- */
