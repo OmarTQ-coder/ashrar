@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>لعبة الأشرار · الجوال</title>
+<title>لعبة الأشرار (بيتا) · الجوال</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Blaka&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@ body.tc-on #glow{opacity:1}
 button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer;touch-action:manipulation}
 input{font:inherit;user-select:text;-webkit-user-select:text}
 .logo{font-family:'Blaka',serif;font-size:62px;line-height:1.1;text-align:center;background:linear-gradient(90deg,#FF375F,#FF9F0A,#FFD60A,#30D158,#40C8E0,#BF5AF2);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.logo .beta{display:inline-block;vertical-align:top;margin-inline-start:8px;margin-top:.15em;padding:4px 11px 6px;border-radius:999px;font:700 15px/1 'Readex Pro',system-ui,sans-serif;color:#fff;-webkit-text-fill-color:#fff;background:linear-gradient(135deg,#FF2D55,#BF5AF2);-webkit-background-clip:border-box;background-clip:border-box;transform:rotate(-8deg)}
 .sub{text-align:center;color:rgba(235,235,245,.7);font-size:17px;line-height:1.6}
 .card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:26px;padding:18px;-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:0 12px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.12)}
 .grow{flex:1}
@@ -344,7 +345,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
       const go = () => { const c = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if (c.length !== 4) { inp.focus(); return; } join(c); };
       inp.addEventListener('input', () => { inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4); if (inp.value.length === 4) inp.blur(); });
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
-      app.append(h('div', { class: 'grow center', style: 'gap:10px' }, h('div', { class: 'logo' }, 'لعبة الأشرار'), h('div', { class: 'sub' }, 'العبوا من جوالاتكم')),
+      app.append(h('div', { class: 'grow center', style: 'gap:10px' }, h('div', { class: 'logo' }, 'لعبة الأشرار', h('span', { class: 'beta' }, 'بيتا')), h('div', { class: 'sub' }, 'العبوا من جوالاتكم')),
         h('div', { class: 'card' }, h('div', { class: 'lbl' }, 'الرمز اللي تحت الكود على الشاشة'), inp, h('div', { style: 'height:12px' }), h('button', { class: 'btn', onclick: go }, 'ادخل')),
         h('div', { class: 'sub', style: 'font-size:14px' }, 'أو صوّروا الكود اللي على الشاشة بالكاميرا'));
     });
@@ -370,7 +371,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   function scrWait() {
     setTeamColor(null);
     screen('wait', () => {
-      app.append(h('div', { class: 'grow center', style: 'gap:10px' }, h('div', { class: 'logo', style: 'font-size:48px' }, 'لعبة الأشرار'), h('div', { class: 'big' }, 'دخلتوا الوكر!'), h('div', { class: 'hint' }, st && st.msg || 'العصابات تطلع هنا أول ما تبدأ الليلة')),
+      app.append(h('div', { class: 'grow center', style: 'gap:10px' }, h('div', { class: 'logo', style: 'font-size:48px' }, 'لعبة الأشرار', h('span', { class: 'beta' }, 'بيتا')), h('div', { class: 'big' }, 'دخلتوا الوكر!'), h('div', { class: 'hint' }, st && st.msg || 'العصابات تطلع هنا أول ما تبدأ الليلة')),
         nameBox('اكتب اسمك من الحين، ونحطك في عصابتك أول ما تبدأ الليلة', me.name ? 'حدّث اسمي' : 'احفظ اسمي', (v) => { pick(null, -1, v); app.dataset.k = ''; render(); }));
     });
   }
