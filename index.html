@@ -122,6 +122,19 @@ input{font:inherit;user-select:text;-webkit-user-select:text}
 .tk-card.show .cover{opacity:0}
 .tk-acts{display:flex;gap:10px}
 .tk-acts .btn{flex:1}
+/* four big answer tiles (everyone answers at once): colour + shape, so nobody needs to read */
+.tk-opts.quad{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tk-opts.quad .tk-o{min-height:118px;flex-direction:column;justify-content:center;text-align:center;gap:6px;background:var(--oc);color:#fff;border:0;font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.tk-opts.quad .tk-o .sh{font-size:34px;line-height:1}
+.tk-opts.quad .tk-o.sent{outline:4px solid #fff;outline-offset:-4px}
+/* the joystick: put a thumb anywhere on the pad and slide */
+.js-pad{flex:1;position:relative;min-height:240px;border-radius:26px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);touch-action:none;-webkit-user-select:none;user-select:none;overflow:hidden}
+.js-base{position:absolute;left:50%;top:50%;width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 3px rgba(255,255,255,.22);transition:opacity .2s}
+.js-base.x{width:270px;height:112px;margin:-56px 0 0 -135px;border-radius:56px}
+.js-base.on{background:rgba(255,255,255,.16)}
+.js-knob{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--c));box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.js-hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:15px;color:rgba(235,235,245,.6);pointer-events:none}
+.tk-acts .btn.big-act{min-height:96px;font-size:24px;font-weight:700}
 .btn.good{background:#30D158;box-shadow:0 10px 26px rgba(48,209,88,.3)}
 .btn.bad{background:#FF453A;box-shadow:0 10px 26px rgba(255,69,58,.3)}
 .tk-ord{display:flex;flex-direction:column;gap:8px}
@@ -424,11 +437,11 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
   }
   const ASK = {
     pick(S) {
-      const box = h('div', { class: 'tk-opts' }), ok = h('div', { class: 'tk-ok' });
+      const box = h('div', { class: 'tk-opts' + (S.quad ? ' quad' : '') }), ok = h('div', { class: 'tk-ok' });
       (S.opts || []).forEach((o, i) => box.append(h('button', { class: 'tk-o' + (o.off ? ' off' : ''), style: '--oc:' + color(o.c || '#FFFFFF'), onclick: (e) => {
         if (box.classList.contains('tk-wait')) return;
-        e.currentTarget.classList.add('sent'); box.classList.add('tk-wait'); ok.textContent = 'وصل ✓'; vib(25); answer(S.id, i);
-      } }, o.t)));
+        e.currentTarget.classList.add('sent'); box.classList.add('tk-wait'); ok.textContent = S.wait || 'وصل ✓'; vib(25); answer(S.id, S.quad ? { i, p: now(e) } : i);
+      } }, o.sh ? h('span', { class: 'sh' }, o.sh) : null, h('span', null, o.t))));
       app.append(h('div', { class: 'grow', style: 'display:flex;flex-direction:column;gap:12px;justify-content:center' }, box, ok));
     },
     text(S) {
@@ -501,6 +514,21 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
       sz.append(h('button', { class: 'btn ghost', style: 'width:auto;min-height:40px;padding:6px 16px;font-size:16px', onclick: () => { g.clearRect(0, 0, 1300, 720); answer(S.id, { clear: 1 }); } }, 'امسح'));
       app.append(S.word ? h('div', { class: 'dr-word' }, S.word) : null, cv, sw, sz);
       if (S.acts && S.acts.length) app.append(h('div', { class: 'tk-acts' }, S.acts.map((x, i) => h('button', { class: 'btn ' + (x.cls || ''), onclick: () => { vib(20); answer(S.id, { act: i }); } }, x.t))));
+    },
+    stick(S) {
+      // a floating joystick: the base jumps to where the thumb lands, the knob follows it (sent ~20 times a second)
+      const xOnly = S.mode === 'x', R = xOnly ? 100 : 72;
+      const pad = h('div', { class: 'js-pad' }), base = h('div', { class: 'js-base' + (xOnly ? ' x' : '') }), knob = h('div', { class: 'js-knob' });
+      base.append(knob); pad.append(base, h('div', { class: 'js-hint' }, S.hint || (xOnly ? 'حط إصبعك واسحب يمين ويسار' : 'حط إصبعك واسحب لأي جهة')));
+      let o = null, v = [0, 0], sendT = 0, sent = '0,0';
+      const send = () => { sendT = 0; const k = v.map(n => n.toFixed(2)).join(','); if (k === sent) return; sent = k; toHost('pr', { k: 'js', id: S.id, x: +v[0].toFixed(2), y: +v[1].toFixed(2) }); };
+      const set = (dx, dy) => { if (xOnly) dy = 0; const d = Math.hypot(dx, dy); if (d > R) { dx *= R / d; dy *= R / d; } knob.style.transform = `translate(${dx}px,${dy}px)`; v = [dx / R, dy / R]; if (!sendT) sendT = setTimeout(send, 45); };
+      pad.addEventListener('pointerdown', (e) => { e.preventDefault(); try { pad.setPointerCapture(e.pointerId); } catch (x) { } const r = pad.getBoundingClientRect(); o = [e.clientX, e.clientY]; base.style.left = (e.clientX - r.left) + 'px'; base.style.top = (e.clientY - r.top) + 'px'; base.classList.add('on'); vib(8); });
+      pad.addEventListener('pointermove', (e) => { if (o) set(e.clientX - o[0], e.clientY - o[1]); });
+      const up = () => { if (!o) return; o = null; base.classList.remove('on'); base.style.left = ''; base.style.top = ''; set(0, 0); clearTimeout(sendT); send(); };
+      pad.addEventListener('pointerup', up); pad.addEventListener('pointercancel', up);
+      app.append(pad);
+      if (S.acts && S.acts.length) app.append(h('div', { class: 'tk-acts' }, S.acts.map((x, i) => h('button', { class: 'btn big-act ' + (x.cls || ''), style: x.c ? `background:${color(x.c)}` : '', onpointerdown: (e) => { e.preventDefault(); vib(25); answer(S.id, { act: i, p: now(e) }); e.currentTarget.animate([{ transform: 'scale(.94)' }, { transform: 'none' }], 160); } }, x.t))));
     },
   };
   function paintCells(S) {
