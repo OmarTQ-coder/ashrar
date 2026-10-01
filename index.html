@@ -179,6 +179,41 @@ input{font:inherit;user-select:text;-webkit-user-select:text}
 #fx.on{animation:fx 1.2s ease-out forwards}
 #fx b{font-size:clamp(54px,17vw,96px);font-weight:700;text-shadow:0 8px 30px rgba(0,0,0,.35)}
 @keyframes fx{0%{opacity:0;transform:scale(.8)}12%{opacity:1;transform:scale(1.04)}25%{transform:scale(1)}75%{opacity:1}100%{opacity:0}}
+/* sheets over the screen: the selfie, the conspiracy */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(5,8,24,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.sheet .in{background:#141a3a;border-radius:28px 28px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;gap:14px;max-height:94vh;max-height:94dvh;overflow:auto;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+.sheet h2{margin:0;font-size:24px;text-align:center}
+.sheet p{margin:0;font-size:15px;color:rgba(235,235,245,.7);text-align:center;line-height:1.6}
+.sf-prev{position:relative;width:240px;height:240px;margin:4px auto;border-radius:50%;overflow:hidden;background:#1b2140;touch-action:none;box-shadow:0 0 0 4px rgba(255,255,255,.85),0 14px 40px rgba(0,0,0,.4)}
+.sf-prev canvas{width:100%;height:100%;display:block}
+.sf-zoom{width:100%;accent-color:#0A84FF}
+.row2{display:flex;gap:10px}.row2 .btn{flex:1;font-size:17px}
+.fb-cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.fb-c{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);font-size:15px;color:rgba(235,235,245,.85)}
+.fb-c.on{background:#0A84FF;color:#fff}
+.fb-ta{height:140px;resize:none;font-size:19px;line-height:1.6;font-family:inherit}
+.btn[disabled]{opacity:.4}
+.top .em.face{padding:0;overflow:hidden}
+.top .em.face img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* the conspiracy: a strip under the game, and its private panel */
+.cn-strip{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:10px 16px;border-radius:18px;background:linear-gradient(90deg,#3a0a18,#1a0610);border:1px solid rgba(255,69,58,.45);font-size:17px;font-weight:600;text-align:right}
+.cn-strip svg{width:24px;height:24px;flex:none;color:#ff8fa3}
+.cn-strip .s{margin-inline-start:auto;font-size:14px;color:rgba(255,200,210,.75);font-weight:500}
+.cn-strip.new{animation:cnp 1.1s ease-in-out infinite;border-color:#FF453A}
+.cn-strip.new .s{color:#fff}
+@keyframes cnp{50%{box-shadow:0 0 0 6px rgba(255,69,58,.25)}}
+.cn-card{border-radius:22px;padding:16px 18px;background:linear-gradient(170deg,#2a0a14,#12040a);border:1px solid rgba(255,69,58,.35);position:relative;touch-action:none;-webkit-user-select:none;user-select:none;min-height:96px}
+.cn-card .k{font-size:14px;color:#ff8fa3;font-weight:600}
+.cn-card .v{font-size:21px;font-weight:700;line-height:1.5;margin-top:6px}
+.cn-card .g{font-size:15px;line-height:1.6;color:rgba(255,220,228,.8);margin-top:4px}
+.cn-card .cover{position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(45deg,#1a1d26 0 14px,#141720 14px 28px);border:2px solid #3a3f50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:16px;font-weight:600;transition:opacity .12s}
+.cn-card .cover b{font-size:20px}
+.cn-card.show .cover{opacity:0}
+.cn-pill{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:999px;font-size:14px;font-weight:600;background:rgba(255,255,255,.12)}
+.cn-pill.ok{background:#30D158;color:#08240f}.cn-pill.no{background:#FF453A}.cn-pill.sent{background:#FF9F0A;color:#2a1600}
+.cn-list{display:flex;flex-wrap:wrap;gap:8px}
+.cn-list button{padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.12);font-size:17px;font-weight:600}
+.cn-list button.arm{background:#FF453A}
 #lost{position:fixed;inset:auto 16px calc(env(safe-area-inset-bottom) + 16px);z-index:8;display:none;align-items:center;gap:12px;padding:14px 18px;border-radius:18px;background:rgba(30,20,20,.8);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);font-size:17px}
 #lost.on{display:flex}
 #lost .spin{width:26px;height:26px;border-width:3px;flex:none}
@@ -260,8 +295,8 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     leave(); me.code = code; save(); joinedAt = Date.now();
     if (location.hash.slice(1) !== code) history.replaceState(null, '', '#' + code);
     room = Trystero.joinRoom({ appId: APP, password: 'ashrar-' + code, relayConfig: { urls: RELAYS } }, code);
-    A = {}; ['hi', 'pk', 'pr', 'po', 'tm', 'st', 'fx', 'pg', 'dw'].forEach(n => A[n] = room.makeAction(n));
-    ['hi', 'pk', 'pr', 'po', 'dw'].forEach(n => A[n].onMessage = () => { });   // other phones' messages are for the screen
+    A = {}; ['hi', 'pk', 'pr', 'po', 'tm', 'st', 'fx', 'pg', 'dw', 'fc'].forEach(n => A[n] = room.makeAction(n));
+    ['hi', 'pk', 'pr', 'po', 'dw', 'fc'].forEach(n => A[n].onMessage = () => { });   // other phones' messages are for the screen
     room.onPeerJoin = (pid) => { A && A.hi.send(hello(), { target: pid }).catch(() => { }); };
     room.onPeerLeave = (pid) => { if (pid === host) { host = null; render(); } };
     A.tm.onMessage = (d, { peerId }) => { if (host && host !== peerId && hostHere()) return; host = peerId; T = d || { teams: [] }; render(); };
@@ -293,11 +328,14 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     if (S.t < 0) return scrWait();
     const tm = T && T.teams && T.teams[S.t]; setTeamColor(color(tm && tm.c));
     if (S.v !== 'remote') rmMode = null;
-    if (S.v === 'ask') return scrAsk(S, tm);
-    if (S.v === 'remote') return scrRemote(S, tm);
-    if (S.v === 'choices') return scrChoices(S, tm);
-    if (S.v === 'pad') return scrPad(S, tm);
-    return scrIdle(S, tm);
+    if (S.v === 'ask') scrAsk(S, tm);
+    else if (S.v === 'remote') scrRemote(S, tm);
+    else if (S.v === 'choices') scrChoices(S, tm);
+    else if (S.v === 'pad') scrPad(S, tm);
+    else scrIdle(S, tm);
+    cnStrip(S.v === 'ask' ? null : S);
+    // no photo of this player yet: offer the selfie once, on a calm screen
+    if (S.fc === 0 && me.pid && me.faceAsk !== me.pid && !sfOpen && (S.v === 'idle' || S.v === 'pad')) { me.faceAsk = me.pid; save(); openSelfie(); }
   }
   function scrJoin() {
     setTeamColor(null);
@@ -366,9 +404,10 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     });
   }
   function header(S, tm) {
+    const mine = me.pid && me.faces && me.faces[me.pid];
     const top = h('div', { class: 'top' },
-      h('span', { class: 'em' }, emblem(tm && tm.e, 'rgba(0,0,0,.72)')),
-      h('div', { class: 'who' }, h('div', { class: 'tn' }, tm ? tm.n : ''), h('div', { class: 'pn' }, h('span', { class: 'me' }, solo() ? 'كل واحد لحاله' : S.n || ''), h('button', { onclick: () => { picking = true; app.dataset.k = ''; render(); } }, 'غيّر'))),
+      h('span', { class: 'em' + (mine ? ' face' : '') }, mine ? h('img', { alt: '', src: mine }) : emblem(tm && tm.e, 'rgba(0,0,0,.72)')),
+      h('div', { class: 'who' }, h('div', { class: 'tn' }, tm ? tm.n : ''), h('div', { class: 'pn' }, h('span', { class: 'me' }, solo() ? 'كل واحد لحاله' : S.n || ''), h('button', { onclick: () => { picking = true; app.dataset.k = ''; render(); } }, 'غيّر'), me.pid ? h('button', { onclick: () => openSelfie() }, 'صورتي') : null, h('button', { onclick: () => openFb() }, 'ملاحظة'))),
       h('div', { class: 'score' }, h('b', null, fmt(S.sc)), h('small', null, S.rk ? `المركز ${S.rk} من ${S.nt}` : '')));
     return top;
   }
@@ -428,7 +467,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     const sig = S.kind === 'pick' ? JSON.stringify(S.opts) : S.kind === 'card' || S.kind === 'draw' ? [S.big, S.word, S.sm, S.hold, S.spy, (S.list || []).join('|'), JSON.stringify(S.acts || [])].join('~')
       : S.kind === 'order' ? (S.items || []).join('|') + S.lock : S.kind === 'cells' ? S.cols + ':' + (S.cells || []).length + S.mode : S.kind === 'text' ? S.max + ':' + S.num + ':' + (S.sub || '') : '';
     const fresh = screen('ask:' + S.id + ':' + S.kind + ':' + (S.title || '') + ':' + sig, () => {
-      app.append(header(S, tm), ...heads(S));
+      app.append(header(S, tm), ...heads(S).filter(Boolean));
       (ASK[S.kind] || ASK.card)(S);
     });
     if (fresh) vib([20, 40, 20]);
@@ -572,11 +611,139 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     refreshHeader(S, tm);
   }
 
+  /* ---------- your photo: a selfie (or one from the gallery), framed in a circle, sent to the screen only ---------- */
+  let sfOpen = false;
+  function openSelfie() {
+    if (sfOpen || !me.pid) return; sfOpen = true;
+    const N = 480, cv = h('canvas', { width: String(N), height: String(N) }), g = cv.getContext('2d');
+    const prev = h('div', { class: 'sf-prev' }, cv), zoom = h('input', { type: 'range', min: '1', max: '3', step: '0.01', value: '1', class: 'sf-zoom' });
+    let im = null, z = 1, cx = .5, cy = .45, drag = null;
+    const crop = () => { const w = im.naturalWidth, H = im.naturalHeight, s = Math.min(w, H) / z; return [Math.min(Math.max(cx * w - s / 2, 0), w - s), Math.min(Math.max(cy * H - s / 2, 0), H - s), s]; };
+    const paint = () => {
+      g.fillStyle = '#1b2140'; g.fillRect(0, 0, N, N);
+      if (!im) { g.fillStyle = 'rgba(255,255,255,.22)'; g.beginPath(); g.arc(N / 2, N * .4, N * .17, 0, 7); g.fill(); g.beginPath(); g.ellipse(N / 2, N * .95, N * .32, N * .3, 0, 0, 7); g.fill(); return; }
+      const [sx, sy, s] = crop(); g.drawImage(im, sx, sy, s, s, 0, 0, N, N);
+    };
+    const choose = (selfie) => {
+      const inp = h('input', { type: 'file', accept: 'image/*', style: 'display:none' }); if (selfie) inp.setAttribute('capture', 'user');
+      inp.addEventListener('change', () => {
+        const f = inp.files && inp.files[0]; inp.remove(); if (!f) return;
+        const url = URL.createObjectURL(f), i2 = new Image();
+        i2.onload = () => { im = i2; z = 1; cx = .5; cy = .45; zoom.value = '1'; paint(); send.disabled = false; };
+        i2.src = url;
+      });
+      document.body.append(inp); inp.click();
+    };
+    prev.addEventListener('pointerdown', (e) => { if (!im) return; e.preventDefault(); try { prev.setPointerCapture(e.pointerId); } catch (x) { } drag = [e.clientX, e.clientY, cx, cy]; });
+    prev.addEventListener('pointermove', (e) => { if (!drag || !im) return; const s = crop()[2], k = s / prev.clientWidth; cx = drag[2] - (e.clientX - drag[0]) * k / im.naturalWidth; cy = drag[3] - (e.clientY - drag[1]) * k / im.naturalHeight; paint(); });
+    const end = () => { if (drag && im) { const [sx, sy, s] = crop(); cx = (sx + s / 2) / im.naturalWidth; cy = (sy + s / 2) / im.naturalHeight; } drag = null; };
+    prev.addEventListener('pointerup', end); prev.addEventListener('pointercancel', end);
+    zoom.addEventListener('input', () => { z = +zoom.value; paint(); });
+    const close = () => { sfOpen = false; sh.remove(); };
+    const send = h('button', { class: 'btn', disabled: 'disabled', onclick: () => {
+      if (!im) return;
+      const [sx, sy, s] = crop(), out = document.createElement('canvas'); out.width = out.height = 320; out.getContext('2d').drawImage(im, sx, sy, s, s, 0, 0, 320, 320);
+      const th = document.createElement('canvas'); th.width = th.height = 96; th.getContext('2d').drawImage(out, 0, 0, 96, 96);
+      if (A && host) A.fc.send({ img: out.toDataURL('image/jpeg', .84) }, { target: host }).catch(() => { });
+      me.faces = Object.assign({}, me.faces, { [me.pid]: th.toDataURL('image/jpeg', .7) }); save(); vib([20, 30, 20]);
+      close(); app.dataset.k = ''; render(); fx({ t: 'msg', m: 'وصلت صورتك ✓', c: '#30D158' });
+    } }, 'أرسل صورتي');
+    const sh = h('div', { class: 'sheet' }, h('div', { class: 'in' },
+      h('h2', null, 'صورتك في اللعبة'), h('p', null, 'تطلع على الهجن والملصقات والتتويج… وتنحفظ في جهاز اللعبة بس.'),
+      prev, zoom, h('p', { style: 'font-size:13px;margin-top:-6px' }, 'اسحب الصورة عشان تضبط وجهك في الدائرة'),
+      h('div', { class: 'row2' }, h('button', { class: 'btn ghost', onclick: () => choose(true) }, 'صوّر نفسك'), h('button', { class: 'btn ghost', onclick: () => choose(false) }, 'من الصور')),
+      send, h('button', { class: 'btn ghost', onclick: close }, 'بعدين')));
+    document.body.append(sh); paint();
+  }
+
+  /* ---------- beta: a note to the game's maker — goes to the screen's report with the moment it was sent ---------- */
+  let fbOpen = false;
+  function openFb() {
+    if (fbOpen) return; fbOpen = true;
+    const CATS = [['bug', 'خلل'], ['look', 'شكل'], ['balance', 'صعوبة ونقاط'], ['voice', 'صوت'], ['idea', 'فكرة'], ['other', 'ثانية']];
+    let cat = 'bug';
+    const chips = h('div', { class: 'fb-cats' });
+    CATS.forEach(([k, l]) => { const b = h('button', { class: 'fb-c' + (k === cat ? ' on' : ''), onclick: () => { cat = k; chips.querySelectorAll('.fb-c').forEach(x => x.classList.toggle('on', x === b)); vib(8); } }, l); chips.append(b); });
+    const ta = h('textarea', { class: 'tk-in fb-ta', maxlength: '1000', placeholder: 'وش صار؟ وش تبي يتغير؟', dir: 'rtl' });
+    const close = () => { fbOpen = false; sh.remove(); };
+    const send = h('button', { class: 'btn', onclick: () => {
+      const t = ta.value.trim(); if (!t) { ta.focus(); return; }
+      if (!A || !host) { fx({ t: 'msg', m: 'مو متصل بالشاشة', c: '#FF453A' }); return; }
+      toHost('pr', { k: 'fb', c: cat, t }); vib([20, 30, 20]); close();
+    } }, 'أرسل');
+    const sh = h('div', { class: 'sheet' }, h('div', { class: 'in' },
+      h('h2', null, 'ملاحظة للنسخة الجاية'), h('p', null, 'اللعبة لسا تجريبية: أي خلل أو فكرة اكتبها هنا، وتنحفظ مع اللحظة اللي كانت على الشاشة.'),
+      chips, ta, send, h('button', { class: 'btn ghost', onclick: close }, 'إلغاء')));
+    document.body.append(sh); setTimeout(() => ta.focus(), 80);
+  }
+
+  /* ---------- the conspiracy: your role, your secret mission, your accusations (everything here stays on this phone) ---------- */
+  const SPY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.2h18M6.2 11.2l1.6-5.4a1 1 0 0 1 1.1-.7l3.1.6 3.1-.6a1 1 0 0 1 1.1.7l1.6 5.4"/><circle cx="8.3" cy="16.2" r="2.6"/><circle cx="15.7" cy="16.2" r="2.6"/><path d="M10.9 16.2h2.2"/></svg>';
+  const ST = { open: 'ما خلصت', sent: 'أرسلتها… الحكم آخر الجولة', ok: 'تمت ✓', no: 'ما تمت' };
+  let cnSeen = me.cnSeen || '', cnPanel = null, cnLast = null;
+  function cnStrip(S) {
+    const cn = S && S.cn; cnLast = cn || null;
+    let el = app.querySelector('.cn-strip');
+    if (!cn) { if (el) el.remove(); if (cnPanel) cnPanel.close(); return; }
+    if (!el) { el = h('button', { class: 'cn-strip', onclick: openCn }); el.innerHTML = SPY; el.append(h('span', { class: 'l' }, 'مؤامرتي'), h('span', { class: 's' })); app.append(el); }
+    const fresh = !!(cn.m && cn.m.s === 'open' && cnSeen !== cn.m.i);
+    el.classList.toggle('new', fresh);
+    el.querySelector('.s').textContent = fresh ? 'مهمة سرية جديدة!' : cn.m ? ST[cn.m.s] || '' : 'استنى الجولة الجاية';
+    if (cnPanel) cnPanel.update(cn);
+  }
+  // a card you see only while pressing on it
+  function holdCard(k, v, g, pill) {
+    const c = h('div', { class: 'cn-card' }, h('div', { class: 'k' }, k), h('div', { class: 'v' }, v), g ? h('div', { class: 'g' }, g) : null, pill || null, h('div', { class: 'cover' }, h('b', null, 'سري'), h('span', null, 'اضغط مطوّلاً عشان تشوف')));
+    const on = (e) => { e.preventDefault(); c.classList.add('show'); vib(10); }, off = () => c.classList.remove('show');
+    c.addEventListener('pointerdown', on); c.addEventListener('pointerup', off); c.addEventListener('pointercancel', off); c.addEventListener('pointerleave', off); c.addEventListener('contextmenu', (e) => e.preventDefault());
+    return c;
+  }
+  // a button that asks «متأكد؟» on the first tap
+  function sure(label, run, cls = '') {
+    const b = h('button', { class: 'btn ' + cls }, label); let armed = 0;
+    b.addEventListener('click', () => { if (!armed) { armed = setTimeout(() => { armed = 0; b.textContent = label; }, 3000); b.textContent = 'متأكد؟ اضغط مرة ثانية'; vib(10); return; } clearTimeout(armed); armed = 0; run(); });
+    return b;
+  }
+  function openCn() {
+    if (!cnLast || cnPanel) return;
+    const body = h('div', { class: 'in' }), sh = h('div', { class: 'sheet' }, body);
+    let accusing = false;
+    const draw = (cn) => {
+      body.innerHTML = '';
+      if (cn.m) { cnSeen = cn.m.i; me.cnSeen = cnSeen; save(); }
+      body.append(h('h2', null, cn.rd ? `مؤامرتك · الجولة ${cn.rd}` : 'مؤامرتك'), h('p', null, 'اضغط مطوّلاً على الكروت عشان تشوفها… وخلّ الجوال لك'));
+      body.append(holdCard('دورك الليلة', cn.r === 't' ? 'الخاين' : 'شرير', cn.g));
+      if (cn.m) {
+        body.append(holdCard(cn.r === 't' ? 'مهمة تخريب' : 'مهمتك السرية', cn.m.t, cn.m.k === 'a' ? 'هذي تنحسب لحالها من اللعبة' : 'لما تخلصها اضغط «سويتها!» — وآخر الجولة الباقين يصوّتون: صدق ولا كذاب', h('span', { class: 'cn-pill ' + cn.m.s }, ST[cn.m.s] || '')));
+        if (cn.m.k === 'c' && cn.m.s === 'open') body.append(sure('سويتها!', () => { toHost('pr', { k: 'cn', a: 'claim', i: cn.m.i }); vib([20, 30, 20]); }, 'good'));
+      } else body.append(h('p', null, 'مهمتك السرية توصلك أول الجولة الجاية'));
+      if (cn.a > 0 && cn.pl && cn.pl.length) {
+        if (!accusing) body.append(h('button', { class: 'btn bad', onclick: () => { accusing = true; draw(cn); } }, `اتهم أحد إنه الخاين (باقي ${cn.a})`));
+        else {
+          const list = h('div', { class: 'cn-list' });
+          cn.pl.forEach(p => { let armed = 0; const b = h('button', null, p.n); b.addEventListener('click', () => { if (!armed) { list.querySelectorAll('.arm').forEach(x => x.classList.remove('arm')); b.classList.add('arm'); armed = 1; b.textContent = 'متأكد؟ ' + p.n; vib(10); return; } toHost('pr', { k: 'cn', a: 'acc', id: p.id }); vib([30, 40, 30]); accusing = false; }); list.append(b); });
+          body.append(h('p', null, 'مين تتهم؟ (اضغط مرتين) — الاتهام سري لين آخر الليلة'), list, h('button', { class: 'btn ghost', onclick: () => { accusing = false; draw(cn); } }, 'رجوع'));
+        }
+      }
+      if (cn.acc && cn.acc.length) body.append(h('p', null, 'اتهمت: ' + cn.acc.join('، ')));
+      body.append(h('button', { class: 'btn ghost', onclick: () => cnPanel && cnPanel.close() }, 'سكّر'));
+    };
+    let sig = '';
+    cnPanel = {
+      update(cn) { const s = JSON.stringify(cn); if (s === sig) return; sig = s; draw(cn); },
+      close() { sh.remove(); cnPanel = null; if (cnLast) cnStrip({ cn: cnLast }); },
+    };
+    document.body.append(sh); cnPanel.update(cnLast);
+    const strip = app.querySelector('.cn-strip'); if (strip) strip.classList.remove('new');
+  }
+
   /* ---------- moments from the screen ---------- */
   function fx(d) {
     if (!d) return;
     let text = '', bg = '', p = 0;
-    if (d.t === 'win') { text = solo() ? 'أنت أول!' : 'أنتم أول!'; bg = 'var(--c)'; p = [70, 40, 160]; }
+    if (d.t === 'msg') { text = d.m || ''; bg = d.c || '#0A84FF'; p = [20]; }
+    else if (d.t === 'cn') { text = d.v === 'ok' ? 'مهمتك تمت ✓' : 'مهمة سرية!'; bg = d.v === 'ok' ? '#30D158' : '#FF375F'; p = d.v === 'ok' ? [30, 30, 60] : [60, 50, 60, 50, 120]; }
+    else if (d.t === 'win') { text = solo() ? 'أنت أول!' : 'أنتم أول!'; bg = 'var(--c)'; p = [70, 40, 160]; }
     else if (d.t === 'early') { text = 'بدري!'; bg = '#FF453A'; p = [40, 30, 40, 30, 40]; }
     else if (d.t === 'wait') { text = 'استنوا…'; bg = '#FF9F0A'; p = [25]; }
     else if (d.t === 'pts') { const v = d.v | 0; text = (v > 0 ? '+' : '−') + fmt(Math.abs(v)); bg = v > 0 ? '#30D158' : '#FF453A'; p = v > 0 ? [30, 30, 60] : [140]; }
