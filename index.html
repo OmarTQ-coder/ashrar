@@ -379,7 +379,7 @@ var ht=Object.freeze({p:0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
     });
     refreshHeader(S, tm);
     const b = app.querySelector('.buzz'), m = app.querySelector('.msg');
-    b.classList.toggle('lock', !!S.lock);
+    b.classList.toggle('lock', !!S.lock || !!S.wait);   // wait: another gang's turn inside the mission
     m.textContent = S.lock ? 'انقفل عليكم هالسؤال' : S.msg || '';
     m.classList.toggle('turn', !S.lock && S.msg === 'دوركم!');
   }
